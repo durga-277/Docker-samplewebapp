@@ -5,3 +5,50 @@ LABEL authors="MOHAN"
 WORKDIR /app
 ADD docker-app-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
+
+
+########################
+service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-java
+spec:
+  selector:
+    app: webapp-java
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+  ###################
+  deployment.yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: webapp-java
+    labels:
+      app: webapp-java
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        app: webapp-java
+    template:
+      metadata:
+        name: webapp-java
+        labels:
+          app: webapp-java
+      spec:
+        containers:
+          - name: webapp-java
+            image: webapp:v1
+            ports:
+              - containerPort: 8080
+            imagePullPolicy: IfNotPresent
+
+
+* kubectl run --rm busybox -it --image=busybox --restart=Never
+// this command is used to access the cluster IP
+
