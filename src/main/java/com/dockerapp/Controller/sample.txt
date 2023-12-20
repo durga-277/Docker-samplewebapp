@@ -54,3 +54,4 @@ spec:
 * kubectl run --rm busybox -it --image=busybox --restart=Never
 // this command is used to access the cluster IP
 
+use kubeshark also it a tool to caacpture the packets of the pods learn this one
