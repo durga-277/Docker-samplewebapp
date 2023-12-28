@@ -55,3 +55,6 @@ spec:
 // this command is used to access the cluster IP
 
 use kubeshark also it a tool to caacpture the packets of the pods learn this one
+
+// kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.48.1/deploy/static/provider/cloud/deploy.yaml
+this is the command to install nginx controller
