@@ -1,7 +1,60 @@
 this is the text file i am currently working on this branch name is feature
 i am testing how i can create a branch in the system
+
+##########
 FROM openjdk:17-alpine
 LABEL authors="MOHAN"
 WORKDIR /app
 ADD docker-app-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
+# ADD /target/docker-app-0.0.1-SNAPSHOT.jar app.jar // this is for when running from intellij terminal
+
+########################
+service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-java
+spec:
+  selector:
+    app: webapp-java
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+  ###################
+  deployment.yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: webapp-java
+    labels:
+      app: webapp-java
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        app: webapp-java
+    template:
+      metadata:
+        name: webapp-java
+        labels:
+          app: webapp-java
+      spec:
+        containers:
+          - name: webapp-java
+            image: webapp:v1
+            ports:
+              - containerPort: 8080
+            imagePullPolicy: IfNotPresent
+
+
+* kubectl run --rm busybox -it --image=busybox --restart=Never
+// this command is used to access the cluster IP
+
+use kubeshark also it a tool to caacpture the packets of the pods learn this one
+
+// kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.48.1/deploy/static/provider/cloud/deploy.yaml
+this is the command to install nginx controller
